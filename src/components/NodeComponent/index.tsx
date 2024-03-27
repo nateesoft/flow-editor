@@ -9,6 +9,7 @@ interface NodeProps {
     nodeType: string;
     numberInputs: number;
     numberOutputs: number;
+    imgUrl: string;
     selected: boolean;
     onMouseDownNode: (id: string, event: any) => void;
     onMouseDownOutput: (outputPositionX: number, outputPositionY: number, nodeId: string, outputIndex: number) => void;
@@ -85,7 +86,10 @@ const NodeComponent: Component<NodeProps> = (props: NodeProps) => {
                     }}
                 </For>
             </div>
-            <div class={styles.paper}>{props.label}</div>
+            <div class={styles.container}>
+                <div><img src={props.imgUrl} alt="" class={styles.image} /></div>
+                <div class={styles.centered}>{props.label}</div>
+            </div>
         </div>
     );
 };

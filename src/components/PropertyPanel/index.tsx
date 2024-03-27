@@ -9,6 +9,7 @@ interface ButtonsProps {
 }
 
 const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
+  console.log(props);
   return (
     <div class={styles.wrapper}>
       <div class={styles.toolbar}>
@@ -16,15 +17,15 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
         <div class={styles.propertyPanel}>
           <div class={styles.row}>
             <div class={styles.column}>
-              <span>Id: </span>
+              <span class={styles.titleBold}>Id</span>
             </div>
             <div class={styles.column}>
-              <input class={styles.input} type="text" value={`${props.id}`} readOnly />
+              <span>{props.id}</span>
             </div>
           </div>
           <div class={styles.row}>
             <div class={styles.column}>
-              <span>Label: </span>
+              <span class={styles.titleBold}>Label</span>
             </div>
             <div class={styles.column}>
             <input class={styles.input} type="text" value={`${props.label}`} readOnly />
@@ -32,7 +33,7 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
           </div>
           <div class={styles.row}>
             <div class={styles.column}>
-              <span>Input: </span>
+              <span class={styles.titleBold}>Input</span>
             </div>
             <div class={styles.column}>
             <input class={styles.input} type="text" value={`${props.input}`} readOnly />
@@ -40,7 +41,7 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
           </div>
           <div class={styles.row}>
             <div class={styles.column}>
-              <span>Output: </span>
+              <span class={styles.titleBold}>Output</span>
             </div>
             <div class={styles.column}>
             <input class={styles.input} type="text" value={`${props.output}`} readOnly />

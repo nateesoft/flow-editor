@@ -10,7 +10,7 @@ function clickOutside(el: any, accessor: any) {
 
 interface ButtonsProps {
     showDelete: boolean;
-    onClickAdd: (numberInputs: number, numberOutputs: number, label: string, nodeType: string) => void;
+    onClickAdd: (numberInputs: number, numberOutputs: number, label: string, nodeType: string, imgUrl: string) => void;
     onClickDelete: () => void;
 }
 

@@ -7,7 +7,6 @@ import {
   onMount
 } from "solid-js"
 import NodeComponent from "../NodeComponent"
-import CircleComponent from "../CircleComponent"
 import ButtonsComponent from "../ButtonsComponent"
 import styles from "./styles.module.css"
 import EdgeComponent from "../EdgeComponent"
@@ -19,6 +18,7 @@ interface Node {
   label: string
   numberInputs: number
   numberOutputs: number
+  imgUrl: string
   prevPosition: {
     get: Accessor<{ x: number; y: number }>
     set: Setter<{ x: number; y: number }>
@@ -78,9 +78,8 @@ const BoardComponent: Component = () => {
   const [edges, setEdges] = createSignal<Edge[]>([])
   const [scale, setScale] = createSignal<number>(1)
 
-  const [currentNode, setCurrentNode] = createSignal<
-    Node | { id: ""; label: ""; input: 0; output: 0 }
-  >({ id: "", label: "", input: 0, output: 0 })
+  const [currentNode, setCurrentNode] = createSignal<Node | { id: ""; label: ""; numberInputs: 0; numberOutputs: 0 }
+  >({ id: "", label: "", numberInputs: 0, numberOutputs: 0 })
 
   onMount(() => {
     const boardElement = document.getElementById("board")
@@ -119,6 +118,7 @@ const BoardComponent: Component = () => {
   }
 
   function handleOnMouseUpBoard() {
+    console.log("handleOnMouseUpBoard")
     setClickedPosition({ x: -1, y: -1 })
 
     // Stop grabbing board
@@ -280,7 +280,7 @@ const BoardComponent: Component = () => {
 
   function handleOnMouseDownNode(id: string, event: any) {
     // default current node
-    setCurrentNode({ id: "", label: "", input: 0, output: 0 })
+    setCurrentNode({ id: "", label: "", numberInputs: 0, numberOutputs: 0 })
 
     // Deselect edge
     setSelectedEdge(null)
@@ -293,7 +293,7 @@ const BoardComponent: Component = () => {
 
     const node = nodes().find((node) => node.id === selectedNode())
     if (node) {
-      setCurrentNode(node)
+      setCurrentNode({...node })
       // Update node position
       node.prevPosition.set((_) => {
         return {
@@ -336,8 +336,11 @@ const BoardComponent: Component = () => {
     numberInputs: number,
     numberOutputs: number,
     label: string,
-    nodeType: string
+    nodeType: string,
+    imgUrl: string,
   ) {
+    console.log('handleOnClickAdd')
+
     // Create center positions
     const randomX = window.innerWidth / 2
     const randomY = window.innerHeight / 2
@@ -361,6 +364,7 @@ const BoardComponent: Component = () => {
         id: `node_${Math.random().toString(36).substring(2, 8)}`,
         label: label,
         nodeType: nodeType,
+        imgUrl: imgUrl,
         numberInputs: numberInputs,
         numberOutputs: numberOutputs,
         prevPosition: { get: nodePrev, set: setNodePrev },
@@ -545,7 +549,7 @@ const BoardComponent: Component = () => {
         onClickDelete={handleOnClickDelete}
       />
       {selectedNode() !== null && (
-        <PropertyPanel id={currentNode().id} label="" input={1} output={1} />
+        <PropertyPanel id={currentNode().id} label={currentNode().label} input={currentNode().numberInputs} output={currentNode().numberOutputs} />
       )}
       <div
         id="board"
@@ -555,39 +559,23 @@ const BoardComponent: Component = () => {
         onMouseMove={handleOnMouseMove}
       >
         <For each={nodes()}>
-          {(node: Node) =>
-            node.nodeType === "1" ? (
-              <NodeComponent
-                id={node.id}
-                label={node.label}
-                nodeType={node.nodeType}
-                x={node.currPosition.get().x}
-                y={node.currPosition.get().y}
-                numberInputs={node.numberInputs}
-                numberOutputs={node.numberOutputs}
-                selected={selectedNode() === node.id}
-                onMouseDownNode={handleOnMouseDownNode}
-                onMouseDownOutput={handleOnMouseDownOutput}
-                onMouseEnterInput={handleOnMouseEnterInput}
-                onMouseLeaveInput={handleOnMouseLeaveInput}
-              />
-            ) : (
-              <CircleComponent
-                id={node.id}
-                label={node.label}
-                nodeType={node.nodeType}
-                x={node.currPosition.get().x}
-                y={node.currPosition.get().y}
-                numberInputs={node.numberInputs}
-                numberOutputs={node.numberOutputs}
-                selected={selectedNode() === node.id}
-                onMouseDownNode={handleOnMouseDownNode}
-                onMouseDownOutput={handleOnMouseDownOutput}
-                onMouseEnterInput={handleOnMouseEnterInput}
-                onMouseLeaveInput={handleOnMouseLeaveInput}
-              />
-            )
-          }
+          {(node: Node) => (
+            <NodeComponent
+              id={node.id}
+              label={node.label}
+              nodeType={node.nodeType}
+              imgUrl={node.imgUrl}
+              x={node.currPosition.get().x}
+              y={node.currPosition.get().y}
+              numberInputs={node.numberInputs}
+              numberOutputs={node.numberOutputs}
+              selected={selectedNode() === node.id}
+              onMouseDownNode={handleOnMouseDownNode}
+              onMouseDownOutput={handleOnMouseDownOutput}
+              onMouseEnterInput={handleOnMouseEnterInput}
+              onMouseLeaveInput={handleOnMouseLeaveInput}
+            />
+          )}
         </For>
         {newEdge() !== null && (
           <EdgeComponent
