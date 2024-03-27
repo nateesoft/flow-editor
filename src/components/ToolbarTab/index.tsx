@@ -1,8 +1,7 @@
-import { Component, createSignal, onCleanup } from "solid-js"
+import { Component } from "solid-js"
 import styles from "./styles.module.css"
 
 interface ButtonsProps {
-  showDelete: boolean
   onClickAdd: (
     numberInputs: number,
     numberOutputs: number,

@@ -1,24 +1,14 @@
-import { Component, createSignal, onCleanup } from "solid-js"
+import { Component } from "solid-js"
 import styles from "./styles.module.css"
 
 interface ButtonsProps {
-  showDelete: boolean
-  onClickAdd: (
-    numberInputs: number,
-    numberOutputs: number,
-    label: string,
-    nodeType: string
-  ) => void
-  onClickDelete: () => void
+  id: string|null;
+  label: string|null;
+  input: number|null;
+  output: number|null;
 }
 
 const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
-
-  function handleOnClickAddNode(event: any, label: string, nodeType: string) {
-    event.stopPropagation()
-    props.onClickAdd(1, 1, label, nodeType)
-  }
-
   return (
     <div class={styles.wrapper}>
       <div class={styles.toolbar}>
@@ -26,10 +16,10 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
         <div class={styles.propertyPanel}>
           <div class={styles.row}>
             <div class={styles.column}>
-              <span>Name: </span>
+              <span>Id: </span>
             </div>
             <div class={styles.column}>
-              <input class={styles.input} type="string"></input>
+              <input class={styles.input} type="text" value={`${props.id}`} readOnly />
             </div>
           </div>
           <div class={styles.row}>
@@ -37,7 +27,7 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
               <span>Label: </span>
             </div>
             <div class={styles.column}>
-              <input class={styles.input} type="string"></input>
+            <input class={styles.input} type="text" value={`${props.label}`} readOnly />
             </div>
           </div>
           <div class={styles.row}>
@@ -45,7 +35,7 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
               <span>Input: </span>
             </div>
             <div class={styles.column}>
-              <input class={styles.input} type="string"></input>
+            <input class={styles.input} type="text" value={`${props.input}`} readOnly />
             </div>
           </div>
           <div class={styles.row}>
@@ -53,7 +43,7 @@ const PropertyPanel: Component<ButtonsProps> = (props: ButtonsProps) => {
               <span>Output: </span>
             </div>
             <div class={styles.column}>
-              <input class={styles.input} type="string"></input>
+            <input class={styles.input} type="text" value={`${props.output}`} readOnly />
             </div>
           </div>
         </div>
