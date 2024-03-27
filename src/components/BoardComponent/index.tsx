@@ -4,6 +4,7 @@ import CircleComponent from "../CircleComponent";
 import ButtonsComponent from "../ButtonsComponent";
 import styles from "./styles.module.css";
 import EdgeComponent from "../EdgeComponent";
+import ToolbarTab from "../ToolbarTab";
 
 interface Node {
     id: string;
@@ -412,6 +413,7 @@ const BoardComponent: Component = () => {
 
     return (
         <div id="boardWrapper" class={styles.wrapper}>
+            <ToolbarTab showDelete={selectedNode() !== null} onClickAdd={handleOnClickAdd} onClickDelete={handleOnClickDelete} />
             <ButtonsComponent showDelete={selectedNode() !== null} onClickAdd={handleOnClickAdd} onClickDelete={handleOnClickDelete} />
             <div
                 id="board"
