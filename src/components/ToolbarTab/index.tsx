@@ -13,57 +13,27 @@ interface ButtonsProps {
 }
 
 const ToolbarTab: Component<ButtonsProps> = (props: ButtonsProps) => {
-  // Signals
-  const [isOpen, setIsOpen] = createSignal<boolean>(true)
-  const [numberInputs, setNumberInputs] = createSignal<number>(0)
-  const [numberOutputs, setNumberOutputs] = createSignal<number>(0)
-  const [label, setLabel] = createSignal<string>("process")
-  const [nodeType, setNodeType] = createSignal<string>("1")
 
-  // Handlers
-  function handleOnClickAdd(event: any) {
+  function handleOnClickAddNode(event: any, label: string, nodeType: string) {
     event.stopPropagation()
-    setIsOpen(true)
-  }
-
-  function handleOnClickAddNode(event: any) {
-    event.stopPropagation()
-
-    // Validate number of inputs and outputs
-    if (
-      numberInputs() > 4 ||
-      numberInputs() < 0 ||
-      numberOutputs() > 4 ||
-      numberOutputs() < 0
-    )
-      return
-
-    setIsOpen(false)
-    props.onClickAdd(numberInputs(), numberOutputs(), label(), nodeType())
-    setNumberInputs(0)
-    setNumberOutputs(0)
-    setLabel("process")
-    setNodeType("1")
+    props.onClickAdd(1, 1, label, nodeType)
   }
 
   return (
     <div class={styles.wrapper}>
       <div class={styles.toolbar}>
         <label class={styles.label}>All Component</label>
-        <button class={styles.buttonOval} onClick={handleOnClickAddNode}>
+        <button class={styles.buttonOval} onClick={(evt)=>handleOnClickAddNode(evt, 'Start', '1')}>
           Start
         </button>
-        <button class={styles.buttonRect} onClick={handleOnClickAddNode}>
+        <button class={styles.buttonRect} onClick={(evt)=>handleOnClickAddNode(evt, 'Process', '1')}>
           Process
         </button>
-        <button class={styles.buttonRect2} onClick={handleOnClickAddNode}>
+        <button class={styles.buttonRect2} onClick={(evt)=>handleOnClickAddNode(evt, 'Process', '1')}>
           Process
         </button>
-        <button class={styles.parallelogram} onClick={handleOnClickAddNode}>
-          Business
-        </button>
-        <button class={styles.triangle} onClick={handleOnClickAddNode}>
-          Decision
+        <button class={styles.buttonOval} onClick={(evt)=>handleOnClickAddNode(evt, 'Stop', '1')}>
+          Stop
         </button>
       </div>
     </div>

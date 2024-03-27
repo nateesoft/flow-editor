@@ -83,3 +83,9 @@
     cursor: crosshair;
     pointer-events: all;
 }
+
+.paper {
+    text-align: center;
+    margin-top: auto;
+    margin-bottom: auto;
+}

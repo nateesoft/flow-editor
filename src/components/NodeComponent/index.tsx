@@ -85,7 +85,7 @@ const NodeComponent: Component<NodeProps> = (props: NodeProps) => {
                     }}
                 </For>
             </div>
-            <div>{props.label}</div>
+            <div class={styles.paper}>{props.label}</div>
         </div>
     );
 };

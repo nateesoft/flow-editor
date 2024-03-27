@@ -5,6 +5,7 @@ import ButtonsComponent from "../ButtonsComponent";
 import styles from "./styles.module.css";
 import EdgeComponent from "../EdgeComponent";
 import ToolbarTab from "../ToolbarTab";
+import PropertyPanel from "../PropertyPanel";
 
 interface Node {
     id: string;
@@ -268,9 +269,9 @@ const BoardComponent: Component = () => {
     }
 
     function handleOnClickAdd(numberInputs: number, numberOutputs: number, label: string, nodeType: string) {
-        // Create random positions
-        const randomX = Math.random() * window.innerWidth;
-        const randomY = Math.random() * window.innerHeight;
+        // Create center positions
+        const randomX = window.innerWidth / 2;
+        const randomY = window.innerHeight / 2;
 
         // Create signal
         const [nodePrev, setNodePrev] = createSignal<{ x: number; y: number }>({ x: randomX, y: randomY });
@@ -414,6 +415,7 @@ const BoardComponent: Component = () => {
     return (
         <div id="boardWrapper" class={styles.wrapper}>
             <ToolbarTab showDelete={selectedNode() !== null} onClickAdd={handleOnClickAdd} onClickDelete={handleOnClickDelete} />
+            <PropertyPanel showDelete={selectedNode() !== null} onClickAdd={handleOnClickAdd} onClickDelete={handleOnClickDelete} />
             <ButtonsComponent showDelete={selectedNode() !== null} onClickAdd={handleOnClickAdd} onClickDelete={handleOnClickDelete} />
             <div
                 id="board"
@@ -424,35 +426,35 @@ const BoardComponent: Component = () => {
             >
                 <For each={nodes()}>
                     {(node: Node) => (
-                        node.nodeType==="1"?
-                        <NodeComponent
-                            id={node.id}
-                            label={node.label}
-                            nodeType={node.nodeType}
-                            x={node.currPosition.get().x}
-                            y={node.currPosition.get().y}
-                            numberInputs={node.numberInputs}
-                            numberOutputs={node.numberOutputs}
-                            selected={selectedNode() === node.id}
-                            onMouseDownNode={handleOnMouseDownNode}
-                            onMouseDownOutput={handleOnMouseDownOutput}
-                            onMouseEnterInput={handleOnMouseEnterInput}
-                            onMouseLeaveInput={handleOnMouseLeaveInput}
-                        />:
-                        <CircleComponent
-                            id={node.id}
-                            label={node.label}
-                            nodeType={node.nodeType}
-                            x={node.currPosition.get().x}
-                            y={node.currPosition.get().y}
-                            numberInputs={node.numberInputs}
-                            numberOutputs={node.numberOutputs}
-                            selected={selectedNode() === node.id}
-                            onMouseDownNode={handleOnMouseDownNode}
-                            onMouseDownOutput={handleOnMouseDownOutput}
-                            onMouseEnterInput={handleOnMouseEnterInput}
-                            onMouseLeaveInput={handleOnMouseLeaveInput}
-                        />
+                        node.nodeType === "1" ?
+                            <NodeComponent
+                                id={node.id}
+                                label={node.label}
+                                nodeType={node.nodeType}
+                                x={node.currPosition.get().x}
+                                y={node.currPosition.get().y}
+                                numberInputs={node.numberInputs}
+                                numberOutputs={node.numberOutputs}
+                                selected={selectedNode() === node.id}
+                                onMouseDownNode={handleOnMouseDownNode}
+                                onMouseDownOutput={handleOnMouseDownOutput}
+                                onMouseEnterInput={handleOnMouseEnterInput}
+                                onMouseLeaveInput={handleOnMouseLeaveInput}
+                            /> :
+                            <CircleComponent
+                                id={node.id}
+                                label={node.label}
+                                nodeType={node.nodeType}
+                                x={node.currPosition.get().x}
+                                y={node.currPosition.get().y}
+                                numberInputs={node.numberInputs}
+                                numberOutputs={node.numberOutputs}
+                                selected={selectedNode() === node.id}
+                                onMouseDownNode={handleOnMouseDownNode}
+                                onMouseDownOutput={handleOnMouseDownOutput}
+                                onMouseEnterInput={handleOnMouseEnterInput}
+                                onMouseLeaveInput={handleOnMouseLeaveInput}
+                            />
                     )}
                 </For>
                 {newEdge() !== null && (
@@ -465,8 +467,8 @@ const BoardComponent: Component = () => {
                             x1: newEdge()!.currEndPosition.get().x,
                             y1: newEdge()!.currEndPosition.get().y,
                         }}
-                        onMouseDownEdge={() => {}}
-                        onClickDelete={() => {}}
+                        onMouseDownEdge={() => { }}
+                        onClickDelete={() => { }}
                     />
                 )}
                 <For each={edges()}>
